@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
-import 'package:stream_games/model/game.dart';
-import 'package:stream_games/component/item_header_game.dart';
-import 'package:stream_games/component/item_description.dart';
-import 'package:stream_games/controller/scroll_horizontal_screenshots.dart';
+import 'package:com.yourcompany.memechat/model/game.dart';
+import 'package:com.yourcompany.memechat/component/item_header_game.dart';
+import 'package:com.yourcompany.memechat/component/item_description.dart';
+import 'package:com.yourcompany.memechat/controller/scroll_horizontal_screenshots.dart';
 
 class GameDetailsPage extends StatefulWidget {
   GameDetailsPage(this.game, {Key key}) : super(key: key);

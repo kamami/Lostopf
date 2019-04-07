@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import 'package:stream_games/icons.dart';
-import 'package:stream_games/model/game.dart';
-import 'package:stream_games/ui/item_game_box.dart';
-import 'package:stream_games/ui/item_header_diagonal.dart';
-import 'package:stream_games/ui/item_rating.dart';
+import 'package:com.yourcompany.memechat/icons.dart';
+import 'package:com.yourcompany.memechat/model/game.dart';
+import 'package:com.yourcompany.memechat/ui/item_game_box.dart';
+import 'package:com.yourcompany.memechat/ui/item_header_diagonal.dart';
+import 'package:com.yourcompany.memechat/ui/item_rating.dart';
 
 class GameDetailHeader extends StatelessWidget {
   GameDetailHeader(this.game);

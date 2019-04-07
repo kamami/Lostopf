@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
-import 'package:stream_games/bottom_menu_items.dart';
-import 'package:stream_games/icons.dart';
-import 'package:stream_games/page/page_games.dart';
-import 'package:stream_games/page/page_coming_soon.dart';
+import 'package:com.yourcompany.memechat/bottom_menu_items.dart';
+import 'package:com.yourcompany.memechat/icons.dart';
+import 'package:com.yourcompany.memechat/page/page_games.dart';
+import 'package:com.yourcompany.memechat/page/page_coming_soon.dart';
 
 class MainPage extends StatefulWidget {
   @override

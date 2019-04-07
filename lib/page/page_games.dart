@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:stream_games/controller/scroll_horizontal_game.dart';
-import 'package:stream_games/model/repository.dart';
+import 'package:com.yourcompany.memechat/controller/scroll_horizontal_game.dart';
+import 'package:com.yourcompany.memechat/model/repository.dart';
 
 class GamesPage extends StatefulWidget {
   GamesPage({Key key}) : super(key: key);

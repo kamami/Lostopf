@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:stream_games/component/item_screenshot_container.dart';
+import 'package:com.yourcompany.memechat/component/item_screenshot_container.dart';
 
 class HorizontalScreenshotController extends StatelessWidget {
   HorizontalScreenshotController(this.screenshots);

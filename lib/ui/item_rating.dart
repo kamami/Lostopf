@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:stream_games/model/game.dart';
+import 'package:com.yourcompany.memechat/model/game.dart';
 
 class RatingInformation extends StatelessWidget {
   RatingInformation(this.game);

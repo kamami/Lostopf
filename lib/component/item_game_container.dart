@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:stream_games/model/game.dart';
-import "package:stream_games/ui/item_game_box.dart";
-import "package:stream_games/page/page_game_details.dart";
+import 'package:com.yourcompany.memechat/model/game.dart';
+import "package:com.yourcompany.memechat/ui/item_game_box.dart";
+import "package:com.yourcompany.memechat/page/page_game_details.dart";
+import "package:cloud_firestore/cloud_firestore.dart";
 
 class GameContainerItem extends StatelessWidget {
   GameContainerItem(this.buildContext, this.game);

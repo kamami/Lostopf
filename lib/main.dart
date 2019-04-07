@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:stream_games/page/page_main.dart';
-import 'package:stream_games/themes.dart';
+import 'package:com.yourcompany.memechat/page/page_main.dart';
+import 'package:com.yourcompany.memechat/themes.dart';
 
 void main() => runApp(new FlutterGames());
 
