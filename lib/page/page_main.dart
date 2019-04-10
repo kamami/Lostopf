@@ -5,6 +5,7 @@ import 'package:com.yourcompany.memechat/bottom_menu_items.dart';
 import 'package:com.yourcompany.memechat/icons.dart';
 import 'package:com.yourcompany.memechat/page/page_games.dart';
 import 'package:com.yourcompany.memechat/page/page_coming_soon.dart';
+import 'package:com.yourcompany.memechat/controller/auth.dart';
 
 class MainPage extends StatefulWidget {
   @override
@@ -13,6 +14,17 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   BottomMenu _layoutSelection = BottomMenu.games;
+  Map<String, dynamic> _profile;
+  bool _loading = false;
+  @override
+  initState() {
+    super.initState();
+
+    // Subscriptions are created here
+    authService.profile.listen((state) => setState(() => _profile = state));
+
+    authService.loading.listen((state) => setState(() => _loading = state));
+  }
 
   @override
   Widget build(BuildContext context) {

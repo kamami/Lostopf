@@ -5,69 +5,27 @@ import 'package:com.yourcompany.memechat/controller/auth.dart';
 
 
 
-class Login extends StatefulWidget {
-  Login({Key key, this.title}) : super(key: key);
-  final String title;
-
-  @override
-  _LoginState createState() => new _LoginState();
-}
-
-PageController pageController;
-
-class _LoginState extends State<Login> {
-  int _page = 0;
-  bool triedSilentLogin = false;
-  bool setupNotifications = false;
-
-
-
-  Scaffold buildLoginPage() {
-    return new Scaffold(
-      body: new Center(
-        child: new Padding(
-          padding: const EdgeInsets.only(top: 240.0),
-          child: new Column(
-            children: <Widget>[
-              new Text(
-                'Lostopf',
-                style: new TextStyle(
-                    fontSize: 60.0,
-                    fontFamily: "Billabong",
-                    color: Colors.black),
-              ),
-              new Padding(padding: const EdgeInsets.only(bottom: 100.0)),
-              new GestureDetector(
-                onTap: (){authService.googleSignIn();},
-                child: new Image.asset(
-                  "assets/google_signin_button.png",
-                  width: 225.0,
-                ),
-              ),
-              new RaisedButton(onPressed: (){
-                _goMainPage(context);
-              })
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
+class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-        return buildLoginPage();
-    }
-
+    return StreamBuilder(
+        stream: authService.user,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return MaterialButton(
+              onPressed: () => authService.signOut(),
+              color: Colors.red,
+              textColor: Colors.white,
+              child: Text('Signout'),
+            );
+          } else {
+            return MaterialButton(
+              onPressed: () => authService.googleSignIn(),
+              color: Colors.white,
+              textColor: Colors.black,
+              child: Text('Login with Google'),
+            );
+          }
+        });
   }
-
-void _goMainPage(BuildContext context) {
-  Navigator.of(context).push(
-    new MaterialPageRoute(
-      builder: (c) {
-        return new MainPage();
-      },
-    ),
-  );
 }
-

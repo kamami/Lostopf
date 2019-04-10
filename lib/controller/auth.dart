@@ -53,6 +53,7 @@ class AuthService {
     // Done
     loading.add(false);
     print("signed in " + user.displayName);
+
     return user;
   }
 
