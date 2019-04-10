@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:com.yourcompany.memechat/page/page_main.dart';
+import 'package:com.yourcompany.memechat/controller/auth.dart';
 
 
 
@@ -37,7 +38,7 @@ class _LoginState extends State<Login> {
               ),
               new Padding(padding: const EdgeInsets.only(bottom: 100.0)),
               new GestureDetector(
-                onTap: (){},
+                onTap: (){authService.googleSignIn();},
                 child: new Image.asset(
                   "assets/google_signin_button.png",
                   width: 225.0,
