@@ -15,6 +15,7 @@ class GameDetailHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return new Stack(
       children: <Widget>[
+
         new Padding(
           padding: const EdgeInsets.only(bottom: 150.0),
           child: _buildDiagonalImageBackground(context),
@@ -54,8 +55,7 @@ class GameDetailHeader extends StatelessWidget {
                         overflow: TextOverflow.fade,
                       ),
                       new Padding(
-                        padding: const EdgeInsets.only(top: 8.0),
-                        child: new RatingInformation(game),
+                        padding: const EdgeInsets.only(top: 18.0),
                       ),
                       new Padding(
                         padding: const EdgeInsets.only(top: 12.0),

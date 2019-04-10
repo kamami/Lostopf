@@ -35,6 +35,12 @@ class _GamesPageState extends State<GamesPage> {
 
 
     return new Scaffold(
+      appBar: new AppBar(
+        title: Text("Games", style: TextStyle(color: Colors.white)),
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.green,
+
+      ),
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () {_goCartPage(context);},
           icon: Icon(Icons.shopping_cart),

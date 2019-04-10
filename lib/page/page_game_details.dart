@@ -21,6 +21,7 @@ class _GameDetailsPageState extends State<GameDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
+
     return new Material(
       borderRadius: new BorderRadius.circular(8.0),
       child: new SingleChildScrollView(

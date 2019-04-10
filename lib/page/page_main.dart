@@ -16,6 +16,7 @@ class _MainPageState extends State<MainPage> {
   BottomMenu _layoutSelection = BottomMenu.games;
   Map<String, dynamic> _profile;
   bool _loading = false;
+
   @override
   initState() {
     super.initState();
@@ -26,60 +27,107 @@ class _MainPageState extends State<MainPage> {
     authService.loading.listen((state) => setState(() => _loading = state));
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return new Material(
-      borderRadius: new BorderRadius.circular(8.0),
-      child: new Scaffold(
-        appBar: new AppBar(
-          elevation: 0.0,
-          centerTitle: false,
-          backgroundColor: Colors.white,
-          automaticallyImplyLeading: false,
-          title: new Row(
-            children: [
-              Text(
-                menuItemName(_layoutSelection),
-                style: Theme.of(context).textTheme.title,
+   buildLoginPage() {
+    return new Scaffold(
+      body: new Center(
+        child: new Padding(
+          padding: const EdgeInsets.only(top: 240.0),
+          child: new Column(
+            children: <Widget>[
+              new Text(
+                'Lostopf',
+                style: new TextStyle(
+                    fontSize: 60.0,
+                    fontFamily: "Billabong",
+                    color: Colors.black),
               ),
-              new Padding(padding: new EdgeInsets.only(right: 8.0)),
-              new Icon(menuIcon(_layoutSelection),
-                  size: 28.0, color: Colors.black),
+              new Padding(padding: const EdgeInsets.only(bottom: 100.0)),
+              new GestureDetector(
+                onTap: () => authService.googleSignIn(),
+                child: new Image.asset(
+                  "assets/google_signin_button.png",
+                  width: 225.0,
+                ),
+              )
             ],
           ),
-
         ),
-        bottomNavigationBar: new CupertinoTabBar(
-          activeColor: Colors.blueAccent,
-          backgroundColor: Colors.white70,
-          items: <BottomNavigationBarItem>[
-            _buildMenuItem(
-                icon: controllerOutlineIcon,
-                iconSelected: controllerIcon,
-                bottomMenu: BottomMenu.games),
-            _buildMenuItem(
-                icon: movieOutlineIcon,
-                iconSelected: movieIcon,
-                bottomMenu: BottomMenu.movies),
-            _buildMenuItem(
-                icon: browseOutlineIcon,
-                iconSelected: browseIcon,
-                bottomMenu: BottomMenu.browse),
-            _buildMenuItem(
-                icon: profileOutlineIcon,
-                iconSelected: profileIcon,
-                bottomMenu: BottomMenu.my),
-            _buildMenuItem(
-                icon: moreOutlineIcon,
-                iconSelected: moreIcon,
-                bottomMenu: BottomMenu.more),
-          ],
-          onTap: _onSelectMenuItem,
-        ),
-        body: _buildPage(),
-        backgroundColor: Colors.white,
       ),
     );
+  }
+
+
+  Container loadingPlaceHolder = Container(
+
+    height: 800.0,
+    child: new Center(child:
+
+    SizedBox(
+    child:
+    new CircularProgressIndicator(
+    valueColor: new AlwaysStoppedAnimation(Colors.green),
+      strokeWidth: 5.0),
+      height: 100.0,
+  width: 100.0,)),
+  );
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder(
+        stream: authService.user,
+        builder: (context, snapshot) {
+            print(snapshot.hasData);
+          if (!snapshot.hasData) {
+
+            return
+_loading ?
+
+    loadingPlaceHolder:
+
+              buildLoginPage();
+
+    } else {
+
+
+
+
+
+     return new Material(
+    borderRadius: new BorderRadius.circular(8.0),
+    child: new Scaffold(
+
+    bottomNavigationBar: new CupertinoTabBar(
+    activeColor: Colors.lightGreenAccent,
+    backgroundColor: Colors.white70,
+    items: <BottomNavigationBarItem>[
+    _buildMenuItem(
+    icon: controllerOutlineIcon,
+    iconSelected: controllerIcon,
+    bottomMenu: BottomMenu.games),
+    _buildMenuItem(
+    icon: movieOutlineIcon,
+    iconSelected: movieIcon,
+    bottomMenu: BottomMenu.movies),
+    _buildMenuItem(
+    icon: browseOutlineIcon,
+    iconSelected: browseIcon,
+    bottomMenu: BottomMenu.browse),
+    _buildMenuItem(
+    icon: profileOutlineIcon,
+    iconSelected: profileIcon,
+    bottomMenu: BottomMenu.my),
+    _buildMenuItem(
+    icon: moreOutlineIcon,
+    iconSelected: moreIcon,
+    bottomMenu: BottomMenu.more),
+    ],
+    onTap: _onSelectMenuItem,
+    ),
+    body: _buildPage(),
+    backgroundColor: Colors.white,
+    ),
+    );
+   }});
   }
 
   Widget _buildPage() {

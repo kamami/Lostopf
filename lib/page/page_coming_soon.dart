@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:com.yourcompany.memechat/controller/auth.dart';
+import 'package:com.yourcompany.memechat/page/page_main.dart';
 
 class ComingSoonPage extends StatefulWidget {
   ComingSoonPage(this.icon, {Key key}) : super(key: key);
@@ -14,6 +16,19 @@ class _ComingSoonPageState extends State<ComingSoonPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: new AppBar(
+        title: Text("Profil"),
+        automaticallyImplyLeading: false,
+
+        actions: <Widget>[
+          new IconButton(
+            onPressed: () { authService.signOut();
+            },
+            color: Colors.red,
+            icon: Icon(Icons.power_settings_new),
+          )
+        ],
+      ),
       body: _buildBody(context),
     );
   }
@@ -80,3 +95,4 @@ class Record {
   @override
   String toString() => "Record<$name:$votes>";
 }
+
