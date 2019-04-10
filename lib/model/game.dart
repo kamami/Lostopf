@@ -1,7 +1,8 @@
 import 'package:meta/meta.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-class Game {
-  Game({
+class Game  {
+  const Game({
     @required this.name,
     @required this.box,
     this.cover,
@@ -15,9 +16,35 @@ class Game {
   final String box;
   final String cover;
   final String description;
-  final List<String> platforms;
-  final double rating;
-  final List<String> screenshots;
+  final  platforms;
+  final rating;
+  final  screenshots;
+
+
+  factory Game.fromDocument(DocumentSnapshot document) {
+    return new Game(
+      name: document['name'],
+      box: document['box'],
+      cover: document['cover'],
+      description: document['description'],
+      platforms: document['platforms'],
+      screenshots: document['screenshots'],
+      rating: document['rating']
+    );
+  }
+
+  factory Game.fromJSON(Map data) {
+    return new Game(
+        name: data['name'],
+        box: data['box'],
+        cover: data['cover'],
+        description: data['description'],
+        platforms: data['platforms'],
+        rating: data['rating'],
+        screenshots: data['screenshots']
+
+    );
+  }
 
   String getPlatforms() {
     String platformText = "";
@@ -35,4 +62,7 @@ class Game {
 
     return platformText;
   }
+
+
+
 }

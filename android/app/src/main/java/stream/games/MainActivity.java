@@ -1,4 +1,4 @@
-package stream.games;
+package com.yourcompany.memechat;
 
 import android.os.Bundle;
 

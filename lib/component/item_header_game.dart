@@ -25,7 +25,7 @@ class GameDetailHeader extends StatelessWidget {
           child: new BackButton(color: Colors.white),
         ),
         new Positioned(
-          bottom: 0.0,
+          bottom: -5.0,
           left: 16.0,
           right: 16.0,
           child: new Row(
@@ -47,6 +47,7 @@ class GameDetailHeader extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       new Text(
+
                         game.name,
                         style: Theme.of(context).textTheme.subhead,
                         maxLines: 3,

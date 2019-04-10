@@ -35,31 +35,7 @@ class _MainPageState extends State<MainPage> {
                   size: 28.0, color: Colors.black),
             ],
           ),
-          actions: <Widget>[
-            new Center(
-              child: new IconButton(
-                  onPressed: () => {},
-                  icon: new Stack(
-                    children: <Widget>[
-                      new Align(
-                        alignment: Alignment.center,
-                        child: new Icon(Icons.shopping_cart,
-                            size: 28.0, color: Colors.black),
-                      ),
-                      new Align(
-                        alignment: Alignment.bottomRight,
-                        child: new CircleAvatar(
-                          radius: 8.0,
-                          backgroundColor: Colors.green,
-                          child: new Text("0",
-                              style: new TextStyle(
-                                  color: Colors.white, fontSize: 10.0)),
-                        ),
-                      ),
-                    ],
-                  )),
-            ),
-          ],
+
         ),
         bottomNavigationBar: new CupertinoTabBar(
           activeColor: Colors.blueAccent,
@@ -164,3 +140,5 @@ class _MainPageState extends State<MainPage> {
     });
   }
 }
+
+

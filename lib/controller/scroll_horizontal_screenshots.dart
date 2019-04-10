@@ -4,7 +4,7 @@ import 'package:com.yourcompany.memechat/component/item_screenshot_container.dar
 
 class HorizontalScreenshotController extends StatelessWidget {
   HorizontalScreenshotController(this.screenshots);
-  final List<String> screenshots;
+  final screenshots;
 
   @override
   Widget build(BuildContext context) {

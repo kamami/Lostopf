@@ -1,0 +1,44 @@
+{
+  "project_info": {
+    "project_number": "1081792000991",
+    "firebase_url": "https://mars-c4c96.firebaseio.com",
+    "project_id": "mars-c4c96",
+    "storage_bucket": "mars-c4c96.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1081792000991:android:dd2d837726498b85",
+        "android_client_info": {
+          "package_name": "com.yourcompany.memechat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1081792000991-0odf6l0tp7vno6pa8m8rltal9tembj71.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.yourcompany.memechat",
+            "certificate_hash": "a152d2eb8b4c013d1fc1ebdf4c0d1715ccda0d0d"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBgfHRIF4hvCMCfnhRPNFRT1ix1gj42hJU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1081792000991-oo6dp8j2od61aq04vfot1gj06h4locjg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

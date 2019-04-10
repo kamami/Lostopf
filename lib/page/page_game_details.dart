@@ -16,6 +16,9 @@ class GameDetailsPage extends StatefulWidget {
 }
 
 class _GameDetailsPageState extends State<GameDetailsPage> {
+
+
+
   @override
   Widget build(BuildContext context) {
     return new Material(

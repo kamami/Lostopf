@@ -1,39 +1,22 @@
 import 'game.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-final List<Game> newGamesList = [
-  seaofthieves,
-  detroitbh,
-  shadowcolossus,
-  agentsofmayhem,
-  mgsurvive
-];
+
+
+
 final List<Game> popularGamesList = [
   codww2,
   fallout4,
   fc5,
-  pvzgw2,
+
   riseoftr
 ];
 
-final Game pvzgw2 = new Game(
-  name: 'Plants vs. Zombies: Garden Warfare 2',
-  box:
-  'https://raw.githubusercontent.com/searchy2/FlutterGames/master/images/box/pvzgw2.jpg',
-  cover: 'https://raw.githubusercontent.com/searchy2/FlutterGames/master/images/cover/pvzgw2.jpg',
-  description:
-  'The battle for suburbia grows to crazy new heights! In this hilarious, action-packed shooter, zombie leader Dr. Zomboss has strengthened his horde and rebuilt suburbia as a zombie utopia. But hope remains, because for the first time the plants are taking the offensive in an all-out attack to reclaim their turf. Play as the plants in the all-new 24-player Herbal Assault mode, or choose your side in 4-player co-op or Solo Play!',
-  platforms: [
-    'XBOX ONE',
-    'PS4',
-  ],
-  rating: 4.0,
-  screenshots: [
-    'https://raw.githubusercontent.com/searchy2/FlutterGames/master/images/screenshot/pvzgw2_1.jpg',
-    'https://raw.githubusercontent.com/searchy2/FlutterGames/master/images/screenshot/pvzgw2_2.jpg',
-    'https://raw.githubusercontent.com/searchy2/FlutterGames/master/images/screenshot/pvzgw2_3.jpg',
-    'https://raw.githubusercontent.com/searchy2/FlutterGames/master/images/screenshot/pvzgw2_4.jpg',
-  ],
-);
+
+
+
+
+
 
 final Game codww2 = new Game(
   name: 'Call of Duty WWII',

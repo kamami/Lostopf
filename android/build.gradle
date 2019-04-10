@@ -2,14 +2,11 @@ buildscript {
     repositories {
         google()
         jcenter()
-
     }
-
 
     dependencies {
         classpath 'com.android.tools.build:gradle:3.0.1'
         classpath 'com.google.gms:google-services:4.0.1'
-
     }
 }
 
@@ -18,10 +15,12 @@ allprojects {
         google()
         jcenter()
         maven {
-            url 'https://maven.google.com/'
+            url "https://maven.google.com" // Google's Maven repository
         }
     }
-
+    configurations.all {
+        resolutionStrategy.force "com.android.support:support-v4:27.1.0"
+    }
 }
 
 rootProject.buildDir = '../build'
@@ -35,6 +34,3 @@ subprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
-
-
-
