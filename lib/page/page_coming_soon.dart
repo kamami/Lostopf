@@ -17,14 +17,14 @@ class _ComingSoonPageState extends State<ComingSoonPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: new AppBar(
-        title: Text("Profil"),
+        title: Text("Profil", style: TextStyle(color: Colors.white)),
         automaticallyImplyLeading: false,
-
+          backgroundColor: Colors.green,
         actions: <Widget>[
           new IconButton(
             onPressed: () { authService.signOut();
             },
-            color: Colors.red,
+            color: Colors.white,
             icon: Icon(Icons.power_settings_new),
           )
         ],

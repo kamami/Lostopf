@@ -59,16 +59,14 @@ class _MainPageState extends State<MainPage> {
 
   Container loadingPlaceHolder = Container(
 
-    height: 800.0,
-    child: new Center(child:
+    child: new Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [new Center(
+          child: CircularProgressIndicator()
+        )])
 
-    SizedBox(
-    child:
-    new CircularProgressIndicator(
-    valueColor: new AlwaysStoppedAnimation(Colors.green),
-      strokeWidth: 5.0),
-      height: 100.0,
-  width: 100.0,)),
+
   );
 
   @override
@@ -171,7 +169,7 @@ _loading ?
   }
 
   Color _setMenuItemColor({BottomMenu bottomMenu}) {
-    return _layoutSelection == bottomMenu ? Colors.blueAccent : Colors.grey;
+    return _layoutSelection == bottomMenu ? Colors.green : Colors.grey;
   }
 
   void _onSelectMenuItem(int index) {
