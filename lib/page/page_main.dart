@@ -19,15 +19,20 @@ class _MainPageState extends State<MainPage> {
 
   @override
   initState() {
+
+
     super.initState();
 
     // Subscriptions are created here
     authService.profile.listen((state) => setState(() => _profile = state));
 
     authService.loading.listen((state) => setState(() => _loading = state));
+
+
   }
 
    buildLoginPage() {
+
     return new Scaffold(
       body: new Center(
         child: new Padding(
@@ -43,7 +48,8 @@ class _MainPageState extends State<MainPage> {
               ),
               new Padding(padding: const EdgeInsets.only(bottom: 100.0)),
               new GestureDetector(
-                onTap: () => authService.googleSignIn(),
+                onTap: () { authService.googleSignIn();
+                            _onSelectMenuItem(0);},
                 child: new Image.asset(
                   "assets/google_signin_button.png",
                   width: 225.0,
@@ -63,7 +69,9 @@ class _MainPageState extends State<MainPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [new Center(
-          child: CircularProgressIndicator()
+          child: CircularProgressIndicator(valueColor: new AlwaysStoppedAnimation<Color>(Colors.green),
+
+          )
         )])
 
 
@@ -71,6 +79,7 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
+    print(authService.user.isEmpty);
     return StreamBuilder(
         stream: authService.user,
         builder: (context, snapshot) {
@@ -78,9 +87,10 @@ class _MainPageState extends State<MainPage> {
           if (!snapshot.hasData) {
 
             return
-_loading ?
+              _loading ?
 
-    loadingPlaceHolder:
+    loadingPlaceHolder
+                  :
 
               buildLoginPage();
 
@@ -190,6 +200,8 @@ _loading ?
         _onLayoutSelected(BottomMenu.more);
         break;
     }
+
+
   }
 
   void _onLayoutSelected(BottomMenu selection) {
@@ -198,5 +210,7 @@ _loading ?
     });
   }
 }
+
+
 
 

@@ -33,31 +33,35 @@ class AuthService {
 
   Future<FirebaseUser> googleSignIn() async {
     // Start
-    loading.add(true);
-
     // Step 1
     GoogleSignInAccount googleUser = await _googleSignIn.signIn();
+
+
 
     // Step 2
 
     GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+    loading.add(true);
+
     final AuthCredential credential = GoogleAuthProvider.getCredential(
+
       accessToken: googleAuth.accessToken,
       idToken: googleAuth.idToken,
     );
     final FirebaseUser user = await _auth.signInWithCredential(credential);
-
     // Step 3
     updateUserData(user);
 
     // Done
     loading.add(false);
+
     print("signed in " + user.displayName);
 
     return user;
   }
 
   void updateUserData(FirebaseUser user) async {
+
     DocumentReference ref = _db.collection('users').document(user.uid);
 
     return ref.setData({
@@ -70,8 +74,10 @@ class AuthService {
   }
 
 
-  void signOut() {
-    _auth.signOut();
+  void signOut() async {
+    await FirebaseAuth.instance.signOut();
+    // await _googleSignIn.signOut();
+
   }
 }
 
