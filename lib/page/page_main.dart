@@ -54,6 +54,10 @@ class _MainPageState extends State<MainPage> {
                   "assets/google_signin_button.png",
                   width: 225.0,
                 ),
+              ),
+              new RaisedButton(onPressed: (){changeAccount();},
+                child: const Text('Account wechseln'),
+
               )
             ],
           ),
@@ -208,6 +212,11 @@ class _MainPageState extends State<MainPage> {
     setState(() {
       _layoutSelection = selection;
     });
+  }
+
+  void changeAccount(){
+     authService.googlSignOut();
+     authService.googleSignIn();
   }
 }
 
