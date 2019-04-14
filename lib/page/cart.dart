@@ -34,10 +34,8 @@ _CartState({this.owner, this.products, this.name});
        future: getCartItems(),
        builder: (context, snapshot) {
 
-         print(snapshot.hasData);
+         print(snapshot.data);
 
-             print(snapshot.data.runtimeType);
-             print(snapshot.hasData);
          switch (snapshot.connectionState) {
            case ConnectionState.none:
            case ConnectionState.waiting:
@@ -46,7 +44,7 @@ _CartState({this.owner, this.products, this.name});
              if (snapshot.hasError)
                return new Text('Error: ${snapshot.error}');
              else
-               return new Column(
+               return new ListView(
 
 
                       children: snapshot.data
@@ -59,37 +57,47 @@ _CartState({this.owner, this.products, this.name});
 
  }
 
-
-
-
-
-
  Future<List<CartItem>> getCartItems() async {
- List<CartItem> cartItems = [];
- final FirebaseUser user =  await FirebaseAuth.instance.currentUser();
+   final FirebaseUser user = await FirebaseAuth.instance.currentUser();
 
- final uid = user.uid;
- QuerySnapshot data = await Firestore.instance
-     .collection("carts")
-     .where('owner', isEqualTo: uid)
-     .where('active', isEqualTo: true)
-     .getDocuments();
+   final uid = user.uid;
+   QuerySnapshot data = await Firestore.instance
+       .collection("carts")
+       .where('owner', isEqualTo: uid)
+       .where('active', isEqualTo: true)
+       .getDocuments();
 
- data.documents.forEach((DocumentSnapshot doc) {
- var keys =  doc["products"].keys.toList();
- var values =  doc["products"].values.toList();
- for (var i = 0; i < keys.length; i++){
-   Firestore.instance.collection('products').document(keys[i]).get().then((DocumentSnapshot ds) {
-  cartItems.add( new CartItem.fromDocument(ds, values[i]));
- });
+   return await _fetchDocumentData(data);
  }
- });
- return cartItems;
-}
 
+ Future<List<CartItem>> _fetchDocumentData(QuerySnapshot data) async {
+   List<CartItem> cartItems = []; // your collection.
+   data.documents.forEach((DocumentSnapshot doc) {
+// iterating synchronously.
+     var keys = doc["products"].keys.toList(); // keys from current document.
+     var values = doc["products"].values.toList(); // values from current document.
 
+// initializing index that will be used to fetch key and value
+     int index = 0;
 
+     keys.forEach((key) async {
+// start iterating asynchronously so that we can fetch data from Future.
 
+// getting snapshot synchronously.
+       DocumentSnapshot ds = await Firestore.instance
+           .collection('products')
+           .document(keys[index])
+           .get();
+// adding item to cart synchronously.
+       cartItems.add(new CartItem.fromDocument(ds, values[index]));
+// incrementing index synchronously.
+       index++;
+     });
+   });
+
+// all of the data will be in the collection as we added it synchronously.
+   return cartItems;
+ }
 
   @override
   Widget build(BuildContext context) {

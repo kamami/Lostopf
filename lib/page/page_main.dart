@@ -56,7 +56,8 @@ class _MainPageState extends State<MainPage> {
                   width: 225.0,
                 ),
               ),
-              new RaisedButton(onPressed: (){changeAccount();},
+              new RaisedButton(onPressed: (){changeAccount();
+              _onSelectMenuItem(0);},
                 child: const Text('Account wechseln'),
 
               )
