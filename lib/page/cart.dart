@@ -27,16 +27,16 @@ class _CartState extends State<Cart> {
  final String name;
 Map products;
  List<CartItem> cartItems = [];
- final AsyncMemoizer _memoizer = AsyncMemoizer();
 
 _CartState({this.owner, this.products, this.name});
 
  @override
  void initState(){
    super.initState();
-
-   _refresh();
-
+   Future.delayed(const Duration(milliseconds: 350), ()
+   {
+     _refresh();
+   });
  }
 
  Container loadingPlaceHolder = Container(
@@ -79,7 +79,6 @@ _CartState({this.owner, this.products, this.name});
 
 
  Future<List<CartItem>> getCartItems() async {
-
  final FirebaseUser user =  await FirebaseAuth.instance.currentUser();
  final uid = user.uid;
  QuerySnapshot data = await Firestore.instance
@@ -197,7 +196,6 @@ class CartItem extends StatelessWidget {
         color: Colors.white,
         child: new ListTile(
           leading:  new CircleAvatar(
-            radius: 40.0,
             backgroundColor: Colors.grey,
             backgroundImage: new CachedNetworkImageProvider(photoUrl),
           ),

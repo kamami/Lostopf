@@ -3,16 +3,50 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:rxdart/rxdart.dart';
 
+class User {
+  const User(
+      {
+        this.uid,
+        this.photoUrl,
+        this.email,
+        this.displayName,
+        this.lastSeen});
+
+  final String email;
+  final String uid;
+  final String photoUrl;
+
+  final String displayName;
+
+  final Timestamp lastSeen;
+
+  factory User.fromDocument(DocumentSnapshot document) {
+    return new User(
+      email: document['email'],
+      uid: document['uid'],
+      photoUrl: document['photoUrl'],
+      displayName: document['displayName'],
+      lastSeen: document['lastSeen'],
+    );
+  }
+}
+
+
 class AuthService {
   // Dependencies
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final Firestore _db = Firestore.instance;
+  final ref = Firestore.instance.collection('users');
+
+  User currentUserModel;
 
   // Shared State for Widgets
   Observable<FirebaseUser> user; // firebase user
   Observable<Map<String, dynamic>> profile; // custom user data in Firestore
   PublishSubject loading = PublishSubject();
+
+
 
   // constructor
   AuthService() {
@@ -71,10 +105,15 @@ class AuthService {
       'displayName': user.displayName,
       'lastSeen': DateTime.now(),
       'carts': {}
+
     }, merge: true);
   }
 
-  
+
+
+
+
+
 
 
   void signOut() async {

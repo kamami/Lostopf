@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -7,6 +6,8 @@ import 'package:com.yourcompany.memechat/icons.dart';
 import 'package:com.yourcompany.memechat/page/page_games.dart';
 import 'package:com.yourcompany.memechat/page/page_coming_soon.dart';
 import 'package:com.yourcompany.memechat/controller/auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class MainPage extends StatefulWidget {
   @override
@@ -20,6 +21,7 @@ class _MainPageState extends State<MainPage> {
 
   @override
   initState() {
+    setCarts();
 
 
     super.initState();
@@ -29,7 +31,24 @@ class _MainPageState extends State<MainPage> {
 
     authService.loading.listen((state) => setState(() => _loading = state));
 
+  }
 
+  setCarts() async{
+
+    final FirebaseUser user = await FirebaseAuth.instance.currentUser();
+
+    final uid = user.uid;
+
+    QuerySnapshot data = await Firestore.instance
+        .collection("carts")
+        .where('owner', isEqualTo: uid)
+        .where('active', isEqualTo: true)
+        .getDocuments();
+
+    data.documents.forEach((DocumentSnapshot ds) {
+      Firestore.instance.collection('users').document(uid).updateData(
+          {'carts.${ds.documentID}': true});
+    });
   }
 
    buildLoginPage() {
@@ -88,6 +107,7 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
+    setCarts();
 
     return StreamBuilder(
         stream: authService.user,
