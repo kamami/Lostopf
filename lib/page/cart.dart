@@ -1,9 +1,11 @@
+import 'package:async/async.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/scheduler.dart';
 
 class Cart extends StatefulWidget {
   final String name;
@@ -24,8 +26,32 @@ class _CartState extends State<Cart> {
  final String owner;
  final String name;
 Map products;
+ List<CartItem> cartItems = [];
+ final AsyncMemoizer _memoizer = AsyncMemoizer();
 
 _CartState({this.owner, this.products, this.name});
+
+ @override
+ void initState(){
+   super.initState();
+
+   _refresh();
+
+ }
+
+ Container loadingPlaceHolder = Container(
+
+     child: new Column(
+         mainAxisAlignment: MainAxisAlignment.center,
+         crossAxisAlignment: CrossAxisAlignment.center,
+         children: [new Center(
+             child: CircularProgressIndicator(valueColor: new AlwaysStoppedAnimation<Color>(Colors.green),
+
+             )
+         )])
+
+
+ );
 
 
  Widget buildList()   {
@@ -34,22 +60,16 @@ _CartState({this.owner, this.products, this.name});
        future: getCartItems(),
        builder: (context, snapshot) {
 
-         print(snapshot.data);
-
          switch (snapshot.connectionState) {
            case ConnectionState.none:
            case ConnectionState.waiting:
-             return new Text('loading...');
+             return loadingPlaceHolder;
            default:
              if (snapshot.hasError)
                return new Text('Error: ${snapshot.error}');
              else
-               return new ListView(
-
-
-                      children: snapshot.data
-
-
+               return ListView(
+                 children: snapshot.data
                );
          }
 
@@ -57,47 +77,37 @@ _CartState({this.owner, this.products, this.name});
 
  }
 
+
  Future<List<CartItem>> getCartItems() async {
-   final FirebaseUser user = await FirebaseAuth.instance.currentUser();
 
-   final uid = user.uid;
-   QuerySnapshot data = await Firestore.instance
-       .collection("carts")
-       .where('owner', isEqualTo: uid)
-       .where('active', isEqualTo: true)
-       .getDocuments();
+ final FirebaseUser user =  await FirebaseAuth.instance.currentUser();
+ final uid = user.uid;
+ QuerySnapshot data = await Firestore.instance
+     .collection("carts")
+     .where('owner', isEqualTo: uid)
+     .where('active', isEqualTo: true)
+     .getDocuments();
+ data.documents.forEach((DocumentSnapshot doc) {
+ var keys =  doc["products"].keys.toList();
+ var values =  doc["products"].values.toList();
+ for (var i = 0; i < keys.length; i++){
 
-   return await _fetchDocumentData(data);
+   Firestore.instance.collection('products').document(keys[i]).get().then((DocumentSnapshot ds) {
+     cartItems.removeWhere((item) => item.name == ds["name"]);
+
+     cartItems.add( new CartItem.fromDocument(ds, values[i]));
+ });
  }
+ });
 
- Future<List<CartItem>> _fetchDocumentData(QuerySnapshot data) async {
-   List<CartItem> cartItems = []; // your collection.
-   data.documents.forEach((DocumentSnapshot doc) {
-// iterating synchronously.
-     var keys = doc["products"].keys.toList(); // keys from current document.
-     var values = doc["products"].values.toList(); // values from current document.
 
-// initializing index that will be used to fetch key and value
-     int index = 0;
-
-     keys.forEach((key) async {
-// start iterating asynchronously so that we can fetch data from Future.
-
-// getting snapshot synchronously.
-       DocumentSnapshot ds = await Firestore.instance
-           .collection('products')
-           .document(keys[index])
-           .get();
-// adding item to cart synchronously.
-       cartItems.add(new CartItem.fromDocument(ds, values[index]));
-// incrementing index synchronously.
-       index++;
-     });
-   });
-
-// all of the data will be in the collection as we added it synchronously.
    return cartItems;
- }
+
+}
+
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -180,12 +190,7 @@ class CartItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-
-    return new Column(
-        children: <Widget>[
-
-          new Slidable(
+    return  new Slidable(
       delegate: new SlidableDrawerDelegate(),
       actionExtentRatio: 0.25,
       child: new Container(
@@ -229,6 +234,6 @@ class CartItem extends StatelessWidget {
           onTap: () {},
         ),
       ],
-    )]);
+    );
   }
 }

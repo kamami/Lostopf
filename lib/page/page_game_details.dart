@@ -7,7 +7,6 @@ import 'package:com.yourcompany.memechat/component/item_description.dart';
 import 'package:com.yourcompany.memechat/controller/scroll_horizontal_screenshots.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:com.yourcompany.memechat/controller/auth.dart';
 
 class GameDetailsPage extends StatefulWidget {
   GameDetailsPage(this.game, {Key key}) : super(key: key);
