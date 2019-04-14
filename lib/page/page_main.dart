@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -81,13 +82,15 @@ class _MainPageState extends State<MainPage> {
 
   );
 
+
+
+
   @override
   Widget build(BuildContext context) {
-    print(authService.user.isEmpty);
+
     return StreamBuilder(
         stream: authService.user,
         builder: (context, snapshot) {
-            print(snapshot.hasData);
           if (!snapshot.hasData) {
 
             return
@@ -117,10 +120,6 @@ class _MainPageState extends State<MainPage> {
     iconSelected: controllerIcon,
     bottomMenu: BottomMenu.games),
     _buildMenuItem(
-    icon: movieOutlineIcon,
-    iconSelected: movieIcon,
-    bottomMenu: BottomMenu.movies),
-    _buildMenuItem(
     icon: browseOutlineIcon,
     iconSelected: browseIcon,
     bottomMenu: BottomMenu.browse),
@@ -146,8 +145,6 @@ class _MainPageState extends State<MainPage> {
     switch (_layoutSelection) {
       case BottomMenu.games:
         return GamesPage();
-      case BottomMenu.movies:
-        return ComingSoonPage(menuIcon(_layoutSelection));
       case BottomMenu.browse:
         return ComingSoonPage(menuIcon(_layoutSelection));
       case BottomMenu.my:
@@ -192,15 +189,12 @@ class _MainPageState extends State<MainPage> {
         _onLayoutSelected(BottomMenu.games);
         break;
       case 1:
-        _onLayoutSelected(BottomMenu.movies);
-        break;
-      case 2:
         _onLayoutSelected(BottomMenu.browse);
         break;
-      case 3:
+      case 2:
         _onLayoutSelected(BottomMenu.my);
         break;
-      case 4:
+      case 3:
         _onLayoutSelected(BottomMenu.more);
         break;
     }

@@ -1,14 +1,93 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class Cart extends StatefulWidget {
+  final String name;
+
+  final String owner;
+  final products;
+  const Cart(
+      {this.owner,
+        this.products,
+        this.name
+        });
 
   @override
-  _CartSTate createState() => new _CartSTate();
+  _CartState createState() => new _CartState(owner: this.owner, products: this.products, name: this.name);
 }
 
-class _CartSTate extends State<Cart> {
+class _CartState extends State<Cart> {
+ final String owner;
+ final String name;
+Map products;
+
+_CartState({this.owner, this.products, this.name});
+
+
+ Widget buildList()   {
+
+   return new FutureBuilder <List<CartItem>>(
+       future: getCartItems(),
+       builder: (context, snapshot) {
+
+         print(snapshot.hasData);
+
+             print(snapshot.data.runtimeType);
+             print(snapshot.hasData);
+         switch (snapshot.connectionState) {
+           case ConnectionState.none:
+           case ConnectionState.waiting:
+             return new Text('loading...');
+           default:
+             if (snapshot.hasError)
+               return new Text('Error: ${snapshot.error}');
+             else
+               return new Column(
+
+
+                      children: snapshot.data
+
+
+               );
+         }
+
+         });
+
+ }
+
+
+
+
+
+
+ Future<List<CartItem>> getCartItems() async {
+ List<CartItem> cartItems = [];
+ final FirebaseUser user =  await FirebaseAuth.instance.currentUser();
+
+ final uid = user.uid;
+ QuerySnapshot data = await Firestore.instance
+     .collection("carts")
+     .where('owner', isEqualTo: uid)
+     .where('active', isEqualTo: true)
+     .getDocuments();
+
+ data.documents.forEach((DocumentSnapshot doc) {
+ var keys =  doc["products"].keys.toList();
+ var values =  doc["products"].values.toList();
+ for (var i = 0; i < keys.length; i++){
+   Firestore.instance.collection('products').document(keys[i]).get().then((DocumentSnapshot ds) {
+  cartItems.add( new CartItem.fromDocument(ds, values[i]));
+ });
+ }
+ });
+ return cartItems;
+}
+
+
 
 
 
@@ -36,119 +115,112 @@ class _CartSTate extends State<Cart> {
           ))
         ],
       ),
-      body: new Container(
-         child: buildList()
+      body:  RefreshIndicator(
+        onRefresh: _refresh,
+        child: buildPage(),
 
-      ),
+      )
     );
   }
 
-  buildList(){
-    return
-      new ListView.builder(
-          itemCount: 1,
-          scrollDirection: Axis.vertical,
-          itemBuilder: (BuildContext context, int position) {
-            return new Column(
-              children: [
+ Future<Null> _refresh() async {
+   await getCartItems();
 
+   setState(() {
 
+   });
 
-              new Slidable(
-                delegate: new SlidableDrawerDelegate(),
-                actionExtentRatio: 0.25,
-                child: new Container(
-                  color: Colors.white,
-                  child: new ListTile(
-                    leading: new CircleAvatar(
-                      backgroundColor: Colors.indigoAccent,
-                      child: new Text('3'),
-                      foregroundColor: Colors.white,
-                    ),
-                    title: new Text('10 Lose'),
-                    subtitle: new Text('Thor\'s Hammer'),
-                  ),
-                ),
-                actions: <Widget>[
-                  new IconSlideAction(
-                    caption: '5',
-                    color: Colors.green[800],
-                    icon: Icons.add,
-                    onTap: (){},
-                  ),
-                  new IconSlideAction(
-                    caption: '1',
-                    color: Colors.green[500],
-                    icon: Icons.add,
-                    onTap: () {},
-                  ),
-                ],
-                secondaryActions: <Widget>[
+   return;
+ }
+  buildPage() {
+    return  new Column(
+     children: [
+        new Expanded(
+         child:
+            buildList(),
+       ),
 
-                  new IconSlideAction(
-                    caption: '1',
-                    color: Colors.red[500],
-                    icon: Icons.remove,
-                    onTap: () {},
-                  ),
-                  new IconSlideAction(
-                    caption: 'Delete',
-                    color: Colors.red[800],
-                    icon: Icons.delete,
-                    onTap: () {},
-                  ),
-                ],
-              ),
-              new Slidable(
-                delegate: new SlidableDrawerDelegate(),
-                actionExtentRatio: 0.25,
-                child: new Container(
-                  color: Colors.white,
-                  child: new ListTile(
-                    leading: new CircleAvatar(
-                      backgroundColor: Colors.indigoAccent,
-                      child: new Text('3'),
-                      foregroundColor: Colors.white,
-                    ),
-                    title: new Text('4 Lose'),
-                    subtitle: new Text('Zauberstab'),
-                  ),
-                ),
-                actions: <Widget>[
-                  new IconSlideAction(
-                    caption: '5',
-                    color: Colors.green[800],
-                    icon: Icons.add,
-                    onTap: (){},
-                  ),
-                  new IconSlideAction(
-                    caption: '1',
-                    color: Colors.green[500],
-                    icon: Icons.add,
-                    onTap: () {},
-                  ),
-                ],
-                secondaryActions: <Widget>[
+     ],
+   );
 
-                  new IconSlideAction(
-                    caption: '1',
-                    color: Colors.red[500],
-                    icon: Icons.remove,
-                    onTap: () {},
-                  ),
-                  new IconSlideAction(
-                    caption: 'Delete',
-                    color: Colors.red[800],
-                    icon: Icons.delete,
-                    onTap: () {},
-                  ),
-                ],
-              )]);
-          }
+ }
 
-      );
-      
-      
 
 }
+
+class CartItem extends StatelessWidget {
+  final String loseAnzahl;
+  final String name;
+  final String photoUrl;
+
+  CartItem(
+      {this.loseAnzahl,
+        this.name,
+          this.photoUrl
+        });
+
+  factory CartItem.fromDocument(DocumentSnapshot ds, String value) {
+
+    return new CartItem(
+      loseAnzahl: value,
+      name: ds["name"],
+      photoUrl: ds["box"],
+
+    );
+
+  }
+
+  @override
+  Widget build(BuildContext context) {
+
+
+    return new Column(
+        children: <Widget>[
+
+          new Slidable(
+      delegate: new SlidableDrawerDelegate(),
+      actionExtentRatio: 0.25,
+      child: new Container(
+        color: Colors.white,
+        child: new ListTile(
+          leading:  new CircleAvatar(
+            radius: 40.0,
+            backgroundColor: Colors.grey,
+            backgroundImage: new CachedNetworkImageProvider(photoUrl),
+          ),
+          title: new Text('$loseAnzahl Los'),
+          subtitle: new Text(name),
+        ),
+      ),
+      actions: <Widget>[
+        new IconSlideAction(
+          caption: '5',
+          color: Colors.green[800],
+          icon: Icons.add,
+          onTap: (){},
+        ),
+        new IconSlideAction(
+          caption: '1',
+          color: Colors.green[500],
+          icon: Icons.add,
+          onTap: () {},
+        ),
+      ],
+      secondaryActions: <Widget>[
+
+        new IconSlideAction(
+          caption: '1',
+          color: Colors.red[500],
+          icon: Icons.remove,
+          onTap: () {},
+        ),
+        new IconSlideAction(
+          caption: 'Delete',
+          color: Colors.red[800],
+          icon: Icons.delete,
+          onTap: () {},
+        ),
+      ],
+    )]);
+  }
 }

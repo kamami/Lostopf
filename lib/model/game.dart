@@ -10,6 +10,7 @@ class Game  {
     this.platforms,
     this.rating,
     this.screenshots,
+    this.id
   });
 
   final String name;
@@ -19,6 +20,7 @@ class Game  {
   final  platforms;
   final rating;
   final  screenshots;
+  final String id;
 
 
   factory Game.fromDocument(DocumentSnapshot document) {
@@ -29,7 +31,8 @@ class Game  {
       description: document['description'],
       platforms: document['platforms'],
       screenshots: document['screenshots'],
-      rating: document['rating']
+      rating: document['rating'],
+      id: document['id']
     );
   }
 
@@ -41,7 +44,8 @@ class Game  {
         description: data['description'],
         platforms: data['platforms'],
         rating: data['rating'],
-        screenshots: data['screenshots']
+        screenshots: data['screenshots'],
+        id: data['id']
 
     );
   }

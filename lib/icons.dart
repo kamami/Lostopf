@@ -3,17 +3,17 @@ import 'package:flutter/widgets.dart';
 const String cupertinoFamily = 'CupertinoIcons';
 const String cupertinoPackage = 'cupertino_icons';
 
-const controllerIcon = const IconData(0xf43b,
+const controllerIcon = const IconData(0xf450,
     fontFamily: cupertinoFamily, fontPackage: cupertinoPackage);
-const controllerOutlineIcon = const IconData(0xf43a,
+const controllerOutlineIcon = const IconData(0xf44f,
     fontFamily: cupertinoFamily, fontPackage: cupertinoPackage);
-const movieIcon = const IconData(0xf42b,
+const movieIcon = const IconData(0xf49c,
     fontFamily: cupertinoFamily, fontPackage: cupertinoPackage);
-const movieOutlineIcon = const IconData(0xf42a,
+const movieOutlineIcon = const IconData(0xf49d,
     fontFamily: cupertinoFamily, fontPackage: cupertinoPackage);
-const browseIcon = const IconData(0xf450,
+const browseIcon = const IconData(0xf47c,
     fontFamily: cupertinoFamily, fontPackage: cupertinoPackage);
-const browseOutlineIcon = const IconData(0xf44f,
+const browseOutlineIcon = const IconData(0xf47b,
     fontFamily: cupertinoFamily, fontPackage: cupertinoPackage);
 const profileIcon = const IconData(0xf41a,
     fontFamily: cupertinoFamily, fontPackage: cupertinoPackage);

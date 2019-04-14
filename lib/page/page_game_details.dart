@@ -5,6 +5,9 @@ import 'package:com.yourcompany.memechat/model/game.dart';
 import 'package:com.yourcompany.memechat/component/item_header_game.dart';
 import 'package:com.yourcompany.memechat/component/item_description.dart';
 import 'package:com.yourcompany.memechat/controller/scroll_horizontal_screenshots.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:com.yourcompany.memechat/controller/auth.dart';
 
 class GameDetailsPage extends StatefulWidget {
   GameDetailsPage(this.game, {Key key}) : super(key: key);
@@ -16,12 +19,50 @@ class GameDetailsPage extends StatefulWidget {
 }
 
 class _GameDetailsPageState extends State<GameDetailsPage> {
+    String activeCart;
 
+   addToCart() async{
+
+    final FirebaseUser user = await FirebaseAuth.instance.currentUser();
+
+    final uid = user.uid;
+
+   Firestore.instance.collection('users').document(uid).get().then((DocumentSnapshot ds) async{
+      List keys =  ds["carts"].keys.toList();
+      List values =  ds["carts"].values.toList();
+
+      for (var i = 0; i < keys.length; i++) {
+          if(values[i] == true){
+            setState(() {
+               activeCart = keys[i];
+            });
+          }
+      }
+
+      if(keys.length == 0){
+        QuerySnapshot data = await Firestore.instance
+            .collection("carts")
+            .where('owner', isEqualTo: uid)
+            .where('active', isEqualTo: true)
+            .getDocuments();
+
+        data.documents.forEach((DocumentSnapshot ds){
+          Firestore.instance.collection('users').document(uid).updateData({'carts.${ds.documentID}': true});
+
+
+        });
+
+      } else {
+        print(activeCart);
+        Firestore.instance.collection('carts').document(activeCart).updateData(
+            {'products.${widget.game.id}': '1'});
+      }});
+    }
 
 
   @override
   Widget build(BuildContext context) {
-
+      print(widget.game.id);
     return new Material(
       borderRadius: new BorderRadius.circular(8.0),
       child: new SingleChildScrollView(
@@ -34,7 +75,7 @@ class _GameDetailsPageState extends State<GameDetailsPage> {
                 width: double.infinity,
                 // height: double.infinity,
                 child: new RaisedButton(
-                  onPressed: () => {},
+                  onPressed: () {},
                   child: new Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
@@ -69,7 +110,7 @@ class _GameDetailsPageState extends State<GameDetailsPage> {
                 width: double.infinity,
                 // height: double.infinity,
                 child: new OutlineButton(
-                  onPressed: () => {},
+                  onPressed: () {addToCart();},
                   child: new Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
@@ -109,3 +150,4 @@ class _GameDetailsPageState extends State<GameDetailsPage> {
     );
   }
 }
+

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:com.yourcompany.memechat/controller/auth.dart';
-import 'package:com.yourcompany.memechat/page/page_main.dart';
 
 class ComingSoonPage extends StatefulWidget {
   ComingSoonPage(this.icon, {Key key}) : super(key: key);

@@ -69,9 +69,12 @@ class AuthService {
       'email': user.email,
       'photoURL': user.photoUrl,
       'displayName': user.displayName,
-      'lastSeen': DateTime.now()
+      'lastSeen': DateTime.now(),
+      'carts': {}
     }, merge: true);
   }
+
+  
 
 
   void signOut() async {

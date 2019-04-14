@@ -23,9 +23,22 @@ class FlutterGamesState extends State<FlutterGames> {
 
           body: new MainPage()
       ),
+      builder: (context, child) {
+        return ScrollConfiguration(
+          behavior: MyBehavior(),
+          child: child,
+        );
+      },
       debugShowCheckedModeBanner: false,
 
     );
   }
 }
 
+class MyBehavior extends ScrollBehavior {
+  @override
+  Widget buildViewportChrome(
+      BuildContext context, Widget child, AxisDirection axisDirection) {
+    return child;
+  }
+}

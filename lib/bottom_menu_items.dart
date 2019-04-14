@@ -3,7 +3,6 @@ import 'package:com.yourcompany.memechat/icons.dart';
 
 enum BottomMenu {
   games,
-  movies,
   browse,
   my,
   more,
@@ -12,13 +11,11 @@ enum BottomMenu {
 String menuItemName(BottomMenu layoutType) {
   switch (layoutType) {
     case BottomMenu.games:
-      return 'Games';
-    case BottomMenu.movies:
-      return 'Movies';
+      return 'Lose';
     case BottomMenu.browse:
-      return 'Browse';
+      return 'Youtuber';
     case BottomMenu.my:
-      return 'My Stuff';
+      return 'Profil';
     case BottomMenu.more:
       return 'More';
     default:
@@ -30,8 +27,6 @@ IconData menuIcon(BottomMenu layoutType) {
   switch (layoutType) {
     case BottomMenu.games:
       return controllerIcon;
-    case BottomMenu.movies:
-      return movieIcon;
     case BottomMenu.browse:
       return browseIcon;
     case BottomMenu.my:
